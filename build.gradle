@@ -1,0 +1,66 @@
+plugins {
+    id "io.freefair.lombok" version "8.10.2"
+    id 'java-library'
+    id 'groovy'
+    id 'maven-publish'
+}
+
+sourceCompatibility = 17
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    springBootVersion = '3.3.4'
+}
+
+dependencies {
+    api platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+
+    implementation group: 'junit', name: 'junit'
+    implementation 'org.assertj:assertj-core'
+    implementation 'org.junit.jupiter:junit-jupiter-api'
+    implementation 'org.hamcrest:hamcrest'
+    implementation 'org.mockito:mockito-core'
+
+    testImplementation platform("org.spockframework:spock-bom:2.3-groovy-4.0")
+    testImplementation 'org.spockframework:spock-core'
+    testImplementation 'net.bytebuddy:byte-buddy' // allows mocking of classes (in addition to interfaces)
+    testImplementation "org.objenesis:objenesis:3.4"
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/ahunigel/${project.name}")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            
+            pom {
+                name = project.name
+                description = 'test toolkit'
+                url = "https://github.com/ahunigel/${project.name}"
+                developers {
+                    developer {
+                        id = 'ahunigel'
+                        name = 'Nigel Zheng'
+                        email = 'ahunigel@gmail.com'
+                    }
+                }
+                scm {
+                    connection = "scm:git:git@github.com:ahunigel/${project.name}.git"
+                    url = "https://github.com/ahunigel/${project.name}"
+                }
+            }
+        }
+    }
+}
