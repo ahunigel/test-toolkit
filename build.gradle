@@ -29,7 +29,10 @@ dependencies {
     testImplementation 'net.bytebuddy:byte-buddy' // allows mocking of classes (in addition to interfaces)
     testImplementation "org.objenesis:objenesis:3.4"
 }
-
+// Make all tests use JUnit 5
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+}
 publishing {
     repositories {
         maven {
