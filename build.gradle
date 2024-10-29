@@ -15,7 +15,7 @@ dependencies {
     implementation platform("org.spockframework:spock-bom:2.3-groovy-4.0")
     implementation platform('org.junit:junit-bom:5.11.3')
 
-    implementation 'org.assertj:assertj-core:3.25.3'
+    implementation 'org.assertj:assertj-core:3.26.3'
     implementation 'org.junit.jupiter:junit-jupiter-api'
     implementation 'org.junit.vintage:junit-vintage-engine'
     implementation 'org.hamcrest:hamcrest:2.2'
